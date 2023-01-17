@@ -1,0 +1,23 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Pedido {
+  id         Int      @id @default(autoincrement())
+  cliente    String
+  data       Item[]
+  dataPedido DateTime @default(now())
+}
+
+model Item {
+  id         Int     @id @default(autoincrement())
+  item       String
+  quantidade Int
+  Pedido     Pedido? @relation(fields: [pedidoId], references: [id], onDelete: Cascade)
+  pedidoId   Int?
+}
